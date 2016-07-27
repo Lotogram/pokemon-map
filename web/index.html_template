@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script>
+    var myImage = 'images/bluecircle.png';
+    var targetImage = 'images/target.png';
+    var map;
+    function initMap() {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(initialLocation);
+
+                new google.maps.Marker({
+                    position: initialLocation,
+                    map: map,
+                    icon: myImage
+                });
+            });
+        }
+
+        load(pokemons);
+    }
+
+    var pokemons = (function () {
+        var json = null;
+        $.ajax({
+            'async': false,
+            'global': false,
+            'url': "data.json",
+            'dataType': "json",
+            'success': function (data) {
+                json = data;
+            }
+        });
+        return json;
+    })();
+
+    function load(locations) {
+        var shape = {
+            coord: [1, 1, 1, 20, 18, 20, 18, 1],
+            type: 'poly'
+        };
+        var image = {
+            url: targetImage,
+            // This marker is 20 pixels wide by 32 pixels high.
+            size: new google.maps.Size(20, 32),
+            // The origin for this image is (0, 0).
+            origin: new google.maps.Point(0, 0),
+            // The anchor for this image is the base of the flagpole at (0, 32).
+            anchor: new google.maps.Point(0, 32)
+        };
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13
+        });
+
+        for (var i = 0; i < locations.length; i++) {
+            var pokemon = locations[i];
+            var myLatLng = new google.maps.LatLng(pokemon.lat, pokemon.long);
+            new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                //shadow: shadow,
+                icon: image,
+                title: pokemon.name,
+                zIndex: pokemon.idx
+            });
+        }
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=GMAPS_API_KEY&callback=initMap" async defer></script>
+</body>
+</html>
