@@ -82,18 +82,24 @@
         for (var i = 0; i < locations.length; i++) {
             var pokemon = locations[i];
             var myLatLng = new google.maps.LatLng(pokemon.lat, pokemon.long);
-            new google.maps.Marker({
+            /*new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 //shadow: shadow,
                 icon: image,
                 title: pokemon.name,
                 zIndex: pokemon.idx
-            });
+            });*/
+
+            map.addMarker(new MarkerOptions()
+                .position(myLatLng)
+                .icon(image)
+                .title(pokemon.name))
+                .showInfoWindow();
         }
     }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=GMAPS_API_KEY&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=GMAPS_API_KEY&callback=initMap"></script>
 </body>
 </html>
