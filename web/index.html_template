@@ -86,7 +86,8 @@
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(pokemon.lat, pokemon.long),
                 map: map,
-                label: pokemon.name
+                label: pokemon.name,
+                title: pokemon.name
             });
 
             console.log('Add ' + pokemon.name);
