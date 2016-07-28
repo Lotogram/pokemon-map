@@ -55,11 +55,13 @@ def parse_map(map_dict):
 
 
 def write_pokemons(pokemons):
-    data_arr = []
-    data = {}
+    arr = list();
     i = 1
     for key, value in pokemons.items():
+        if not value['pokemon_name']:
+            continue
         i += 1
+        data = {}
         data['id'] = key
         data['name'] = value['pokemon_name']
         data['lat'] = value['latitude']
@@ -68,10 +70,12 @@ def write_pokemons(pokemons):
 
         print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(data)))
 
-        data_arr.append(data)
+        arr.append(data)
+
+        print('Pokemons: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(arr)))
 
     with open('web/data.json', 'w') as outfile:
-        json.dump(data_arr, outfile)
+        json.dump(arr, outfile)
 
 
 def main():
