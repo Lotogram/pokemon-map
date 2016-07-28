@@ -56,7 +56,7 @@ def parse_map(map_dict):
 
 def write_pokemons(pokemons):
     arr = list();
-    i = 1
+    i = 0
     for key, value in pokemons.items():
         if not value['pokemon_name']:
             continue
