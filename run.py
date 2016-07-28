@@ -43,7 +43,8 @@ def parse_map(map_dict):
                 'longitude': p['longitude'],
                 'disappear_time': d_t
             }
-            print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(pokemons)))
+
+    print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(pokemons)))
 
     if pokemons:
         log.info("Upserting {} pokemon".format(len(pokemons)))
@@ -57,6 +58,7 @@ def write_pokemons(pokemons):
     i = 1
     for key, value in pokemons.items():
         i += 1
+        data['id'] = key
         data['name'] = value['pokemon_name']
         data['lat'] = value['latitude']
         data['long'] = value['longitude']
