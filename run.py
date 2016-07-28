@@ -6,6 +6,7 @@ import pprint
 import json
 import os.path
 import ConfigParser
+import random
 
 from datetime import datetime
 
@@ -16,7 +17,6 @@ from __init___ import config
 
 log = logging.getLogger(__name__)
 
-TIMESTAMP = '\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000'
 
 def get_pokemon_name(pokemon_id):
     if not hasattr(get_pokemon_name, 'names'):
@@ -43,8 +43,10 @@ def parse_map(map_dict):
                 'pokemon_id': p['pokemon_data']['pokemon_id'],
                 'latitude': p['latitude'],
                 'longitude': p['longitude'],
-                'disappear_time': d_t
+                'disappear_time': d_t,
+                'distance': 0
             }
+            # pokemon['distance'] = distance.distance(origin, loc).meters
 
     print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(pokemons)))
 
@@ -52,6 +54,31 @@ def parse_map(map_dict):
         log.info("Upserting {} pokemon".format(len(pokemons)))
 
     return pokemons
+
+
+def generate_spiral(starting_lat, starting_lng, step_size, step_limit):
+    coords = [{'lat': starting_lat, 'lng': starting_lng}]
+    steps, x, y, d, m = 1, 0, 0, 1, 1
+    rlow = 0.0
+    rhigh = 0.0005
+
+    while steps < step_limit:
+        while 2 * x * d < m and steps < step_limit:
+            x = x + d
+            steps += 1
+            lat = x * step_size + starting_lat + random.uniform(rlow, rhigh)
+            lng = y * step_size + starting_lng + random.uniform(rlow, rhigh)
+            coords.append({'lat': lat, 'lng': lng})
+        while 2 * y * d < m and steps < step_limit:
+            y = y + d
+            steps += 1
+            lat = x * step_size + starting_lat + random.uniform(rlow, rhigh)
+            lng = y * step_size + starting_lng + random.uniform(rlow, rhigh)
+            coords.append({'lat': lat, 'lng': lng})
+
+        d = -1 * d
+        m = m + 1
+    return coords
 
 
 def write_pokemons(pokemons):
@@ -78,6 +105,39 @@ def write_pokemons(pokemons):
         json.dump(arr, outfile)
 
 
+def find_pokemons(api, position):
+    step_size = 0.0015
+    step_limit = 9
+
+    coords = generate_spiral(position[0], position[1], step_size, step_limit)
+
+    cell_ids = util.get_cell_ids(position[0], position[1])
+    # timestamps = [0, ] * len(cell_ids)
+    timestamps = '\000' * 21
+
+    pokemons = {}
+
+    for coord in coords:
+        lat = coord['lat']
+        lng = coord['lng']
+        api.set_position(lat, lng, 0)
+
+        api.get_map_objects(latitude=util.f2i(position[0]),
+                            longitude=util.f2i(position[1]),
+                            since_timestamp_ms=timestamps,
+                            cell_id=cell_ids)
+        response_dict = api.call()
+        resp = parse_map(response_dict)
+
+        pokemons.update(resp)
+
+    if not pokemons:
+        log.error('Cannot found pokemons')
+        return
+
+    return pokemons
+
+
 def main():
     # log settings
     # log format
@@ -99,23 +159,7 @@ def main():
         log.error('Your given location could not be found by name')
         return
 
-    cell_ids = util.get_cell_ids(position[0], position[1])
-    timestamps = [0, ] * len(cell_ids)
-
-    api.set_position(*position)
-    api.get_map_objects(latitude=util.f2i(position[0]),
-                        longitude=util.f2i(position[1]),
-                        since_timestamp_ms=timestamps,
-                        cell_id=cell_ids)
-    response_dict = api.call()
-
-    pokemons = {}
-    pokemons = parse_map(response_dict)
-
-    if not pokemons:
-        log.error('Cannot found pokemons')
-        return
-
+    pokemons = find_pokemons(api, position)
     write_pokemons(pokemons)
 
 
