@@ -79,23 +79,17 @@
             anchor: new google.maps.Point(0, 32)
         };
 
+        var marker;
         for (var i = 0; i < locations.length; i++) {
             var pokemon = locations[i];
-            var myLatLng = new google.maps.LatLng(pokemon.lat, pokemon.long);
-            /*new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                //shadow: shadow,
-                icon: image,
-                title: pokemon.name,
-                zIndex: pokemon.idx
-            });*/
 
-            map.addMarker(new MarkerOptions()
-                .position(myLatLng)
-                .icon(image)
-                .title(pokemon.name))
-                .showInfoWindow();
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(pokemon.lat, pokemon.long),
+                map: map,
+                label: pokemon.name
+            });
+
+            console.log('Add ' + pokemon.name);
         }
     }
 
