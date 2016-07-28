@@ -83,6 +83,10 @@
         for (var i = 0; i < locations.length; i++) {
             var pokemon = locations[i];
 
+            if (i == 0) {
+                map.setCenter( new google.maps.LatLng(pokemon.lat, pokemon.long));
+            }
+
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(pokemon.lat, pokemon.long),
                 map: map,
