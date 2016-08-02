@@ -29,10 +29,6 @@
     function initMap() {
 
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {
-                lat: 41.13522748,
-                lng: -8.62701416
-            },
             zoom: 13
         });
 
@@ -78,19 +74,6 @@
     }
 
     function load(locations, repeat) {
-        var shape = {
-            coord: [1, 1, 1, 20, 18, 20, 18, 1],
-            type: 'poly'
-        };
-        var image = {
-            url: targetImage,
-            // This marker is 20 pixels wide by 32 pixels high.
-            size: new google.maps.Size(20, 32),
-            // The origin for this image is (0, 0).
-            origin: new google.maps.Point(0, 0),
-            // The anchor for this image is the base of the flagpole at (0, 32).
-            anchor: new google.maps.Point(0, 32)
-        };
 
         removeAllMarkers();
 
@@ -109,7 +92,7 @@
                 map: map,
                 fontSize: 10,
                 align: 'center'
-            })
+            });
             labels.push(mapLabel);
 
             marker = new google.maps.Marker({
