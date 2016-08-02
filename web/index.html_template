@@ -65,6 +65,7 @@
         delete pokemons;
         setInterval(function() {
                 load(pokemons, true);
+                delete pokemons;
             }, 4000);
     }
 
@@ -134,8 +135,6 @@
 
             console.log('Add ' + pokemon.name);
         }
-
-        delete locations
     }
     initMap();
 </script>
