@@ -163,7 +163,8 @@ def main():
 
         poke = {}
         poke = find_pokemons(api, position)
-        if poke:
+
+        if len(poke) > 0:
             pokemons.update(poke)
             write_pokemons(pokemons)
 
