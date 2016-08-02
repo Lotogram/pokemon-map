@@ -62,7 +62,7 @@
             });
         }*/
         load(pokemons);
-        setInterval(function() {load(pokemons); pokemons = null}, 4000);
+        setInterval(function() {load(pokemons, true); pokemons = null}, 4000);
     }
 
     var pokemons = (function () {
@@ -86,7 +86,7 @@
         markers = [];
       }
 
-    function load(locations) {
+    function load(locations, repeat) {
         var shape = {
             coord: [1, 1, 1, 20, 18, 20, 18, 1],
             type: 'poly'
@@ -106,7 +106,7 @@
         for (var i = 0; i < locations.length; i++) {
             var pokemon = locations[i];
 
-            if (i == 0) {
+            if (i == 0 && !repeat) {
                 map.setCenter( new google.maps.LatLng(pokemon.lat, pokemon.long));
             }
 
