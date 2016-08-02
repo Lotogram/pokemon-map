@@ -61,15 +61,13 @@
                 });
             });
         }*/
-        load(pokemons);
-        delete pokemons;
+        load(getPokemons());
         setInterval(function() {
-                load(pokemons, true);
-                delete pokemons;
+                load(getPokemons(), true);
             }, 4000);
     }
 
-    var pokemons = (function () {
+    function getPokemons() {
         var json = null;
         $.ajax({
             'async': false,
@@ -81,7 +79,7 @@
             }
         });
         return json;
-    })();
+    }
 
     function removeAllMarkers() {
         for (var i = 0; i < markers.length; i++) {
