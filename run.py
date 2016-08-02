@@ -170,8 +170,6 @@ def main():
         if len(locations) > 1:
             time.sleep(0.51)
 
-    write_pokemons(pokemons)
-
 
 def replace_web():
     with open('web/index.html_template') as infile, open('web/index.html', 'w') as outfile:
