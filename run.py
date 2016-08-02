@@ -155,7 +155,7 @@ def main():
             log.error('Your given location could not be found by name')
             return
 
-        if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, True):
+        if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, False):
             return
 
         poke = find_pokemons(api, position)
