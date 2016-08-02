@@ -60,9 +60,7 @@
                 });
             });
         }*/
-
-        setTimeout(load(pokemons), 4000);
-        //load(pokemons);
+        setInterval(function() {load(pokemons):}, 4000);
     }
 
     var pokemons = (function () {
