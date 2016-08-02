@@ -62,6 +62,7 @@
             });
         }*/
         load(pokemons);
+        delete pokemons
         setInterval(function() {
                 load(pokemons, true);
             }, 4000);
