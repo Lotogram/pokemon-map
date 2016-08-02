@@ -94,7 +94,8 @@ def write_pokemons(pokemons):
         data['name'] = value['pokemon_name']
         data['lat'] = value['latitude']
         data['long'] = value['longitude']
-        data['disappear'] = value['disappear_time'].strftime("%d-%m-%Y %H:%M:%S")
+        # data['disappear'] = value['disappear_time'].strftime("%d-%m-%Y %H:%M:%S")
+        data['disappear'] = value['disappear_time'].strftime("%H:%M:%S")
         data['idx'] = i
 
         # print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(data)))
