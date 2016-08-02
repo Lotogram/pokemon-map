@@ -49,10 +49,10 @@ def parse_map(map_dict):
             }
             # pokemon['distance'] = distance.distance(origin, loc).meters
 
-    print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(pokemons)))
+    # print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(pokemons)))
 
-    if pokemons:
-        log.info("Upserting {} pokemon".format(len(pokemons)))
+    #if pokemons:
+    #    log.info("Upserting {} pokemon".format(len(pokemons)))
 
     return pokemons
 
@@ -97,11 +97,11 @@ def write_pokemons(pokemons):
         data['disappear'] = value['disappear_time'].strftime("%d-%m-%Y %H:%M:%S")
         data['idx'] = i
 
-        print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(data)))
+        # print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(data)))
 
         arr.append(data)
 
-        print('Pokemons: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(arr)))
+        # print('Pokemons: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(arr)))
 
     with open('web/data.json', 'w') as outfile:
         json.dump(arr, outfile)
@@ -131,6 +131,9 @@ def find_pokemons(api, position):
         resp = parse_map(response_dict)
 
         pokemons.update(resp)
+
+        if len(pokemons) > 0:
+            write_pokemons(pokemons);
 
         time.sleep(0.51)
 
