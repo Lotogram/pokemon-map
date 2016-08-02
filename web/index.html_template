@@ -39,6 +39,7 @@
     var targetImage = 'images/target.png';
     var map;
     var markers = [];
+    var labels = [];
     function initMap() {
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -84,8 +85,10 @@
     function removeAllMarkers() {
         for (var i = 0; i < markers.length; i++) {
           markers[i].setMap(null);
+          labels[i].setMap(null);
         }
         markers = [];
+        labels = [];
       }
 
     function load(locations, repeat) {
@@ -120,6 +123,8 @@
                 align: 'right'
             })
 
+            labels.push(mapLabel);
+
             marker = new google.maps.Marker({
                 map: map,
                 zIndex: 1,
@@ -130,8 +135,6 @@
             });
 
             markers.push(marker);
-
-            console.log('Add ' + pokemon.name);
         }
     }
     initMap();
