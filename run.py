@@ -106,7 +106,7 @@ def write_pokemons(pokemons):
         json.dump(arr, outfile)
 
 
-def find_pokemons(api, position, pokemons):
+def find_pokemons(api, position):
     step_size = 0.0015
     step_limit = 49
 
@@ -116,6 +116,7 @@ def find_pokemons(api, position, pokemons):
     # timestamps = [0, ] * len(cell_ids)
     timestamps = [0, ] * len(cell_ids)
 
+    pokemons = {}
     for coord in coords:
         lat = coord['lat']
         lng = coord['lng']
@@ -126,11 +127,8 @@ def find_pokemons(api, position, pokemons):
                             since_timestamp_ms=timestamps,
                             cell_id=cell_ids)
         resp = parse_map(response_dict)
-
         pokemons.update(resp)
-        write_pokemons(pokemons)
         time.sleep(0.51)
-
     return pokemons
 
 
@@ -160,13 +158,11 @@ def main():
         if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, True):
             return
 
-        #poke = {}
-        #poke = find_pokemons(api, position)
-        pokemons = find_pokemons(api, position, pokemons)
+        poke = find_pokemons(api, position)
+        pokemons.update(poke)
 
-        #if len(poke) > 0:
-        #pokemons.update(poke)
-        #write_pokemons(pokemons)
+        if len(pokemons) > 0:
+            write_pokemons(pokemons)
 
         if len(locations) > 1:
             time.sleep(0.51)
