@@ -104,6 +104,8 @@ def write_pokemons(pokemons):
 
         # print('Pokemons: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(arr)))
 
+    log.debug("Writing " + str(data));
+
     with open('web/data.json', 'w') as outfile:
         json.dump(arr, outfile)
 
