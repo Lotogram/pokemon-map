@@ -134,10 +134,6 @@ def find_pokemons(api, position):
 
         time.sleep(0.51)
 
-    if not pokemons:
-        log.error('Cannot found pokemons')
-        return
-
     return pokemons
 
 
