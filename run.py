@@ -152,22 +152,28 @@ def main():
     # log level for internal pgoapi class
     logging.getLogger("rpc_api").setLevel(logging.INFO)
 
-    api = PGoApi()
 
     locations = config['LOCATIONS'].split(";")
 
     pokemons = {}
 
     for location in locations:
+        api = PGoApi()
+
         position = util.get_pos_by_name(location)
         if not position:
             log.error('Your given location could not be found by name')
             return
 
-        if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, False):
+        if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, True):
             return
 
-        pokemons.update(find_pokemons(api, position))
+        poke = find_pokemons(api, position)
+        if poke:
+            pokemons.update(poke)
+
+        if len(locations) > 1:
+            time.sleep(0.51)
 
     write_pokemons(pokemons)
 
