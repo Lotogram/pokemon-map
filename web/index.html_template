@@ -62,7 +62,10 @@
             });
         }*/
         load(pokemons);
-        setInterval(function() {load(pokemons, true); pokemons = null}, 4000);
+        setInterval(function() {
+                load(pokemons, true);
+            }, 4000);
+        }
     }
 
     var pokemons = (function () {
@@ -131,6 +134,8 @@
 
             console.log('Add ' + pokemon.name);
         }
+
+        delete locations
     }
     initMap();
 </script>
