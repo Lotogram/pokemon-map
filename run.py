@@ -130,6 +130,7 @@ def find_pokemons(api, position):
         resp = parse_map(response_dict)
 
         pokemons.update(resp)
+        write_pokemons(pokemons)
         time.sleep(0.51)
 
     return pokemons
