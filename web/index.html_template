@@ -109,19 +109,14 @@
                 align: 'right'
             })
 
-            /*marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
                 map: map,
                 zIndex: 1,
                 //title: pokemon.name,
                 //label: pokemon.name,
-                //position: new google.maps.LatLng(pokemon.lat, pokemon.long),
+                position: new google.maps.LatLng(pokemon.lat, pokemon.long)
                 //icon: targetImage,
-
-                labelContent: pokemon.name,
-                labelAnchor: new google.maps.Point(22, 0),
-                labelClass: "labels", // the CSS class for the label
-                labelStyle: {opacity: 0.75}
-            });*/
+            });
 
             console.log('Add ' + pokemon.name);
         }
