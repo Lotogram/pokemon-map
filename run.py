@@ -94,6 +94,7 @@ def write_pokemons(pokemons):
         data['name'] = value['pokemon_name']
         data['lat'] = value['latitude']
         data['long'] = value['longitude']
+        data['disappear'] = value['disappear_time'].strftime("%d-%m-%Y %H:%M:%S")
         data['idx'] = i
 
         print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(data)))
@@ -127,7 +128,6 @@ def find_pokemons(api, position):
                             longitude=util.f2i(position[1]),
                             since_timestamp_ms=timestamps,
                             cell_id=cell_ids)
-        # response_dict = api.call()
         resp = parse_map(response_dict)
 
         pokemons.update(resp)
@@ -154,15 +154,21 @@ def main():
 
     api = PGoApi()
 
-    position = util.get_pos_by_name(config['LOCATIONS'])
-    if not position:
-        log.error('Your given location could not be found by name')
-        return
+    locations = config['LOCATIONS'].split(";")
 
-    if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, True):
-        return
+    pokemons = {}
 
-    pokemons = find_pokemons(api, position)
+    for location in locations:
+        position = util.get_pos_by_name(location)
+        if not position:
+            log.error('Your given location could not be found by name')
+            return
+
+        if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, False):
+            return
+
+        pokemons.update(find_pokemons(api, position))
+
     write_pokemons(pokemons)
 
 

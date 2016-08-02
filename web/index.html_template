@@ -102,7 +102,7 @@
             }
 
              var mapLabel = new MapLabel({
-                text: pokemon.name,
+                text: pokemon.name + " " + pokemon.disappear,
                 position: new google.maps.LatLng(pokemon.lat, pokemon.long),
                 map: map,
                 fontSize: 10,
