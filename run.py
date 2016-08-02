@@ -106,7 +106,7 @@ def write_pokemons(pokemons):
         json.dump(arr, outfile)
 
 
-def find_pokemons(api, position):
+def find_pokemons(api, position, pokemons):
     step_size = 0.0015
     step_limit = 49
 
@@ -115,8 +115,6 @@ def find_pokemons(api, position):
     cell_ids = util.get_cell_ids(position[0], position[1])
     # timestamps = [0, ] * len(cell_ids)
     timestamps = [0, ] * len(cell_ids)
-
-    pokemons = {}
 
     for coord in coords:
         lat = coord['lat']
@@ -164,7 +162,7 @@ def main():
 
         #poke = {}
         #poke = find_pokemons(api, position)
-        find_pokemons(api, position)
+        pokemons = find_pokemons(api, position, pokemons)
 
         #if len(poke) > 0:
         #pokemons.update(poke)
