@@ -14,6 +14,17 @@
         #map {
             height: 100%;
         }
+
+        .labels {
+            color: black;
+            background-color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-align: center;
+            width: 6em;
+            border: 1px solid black;
+            white-space: normal;
+        }
     </style>
 </head>
 <body>
@@ -88,10 +99,12 @@
             }
 
             marker = new google.maps.Marker({
-                position: new google.maps.LatLng(pokemon.lat, pokemon.long),
                 map: map,
+                zIndex: 1,
+                title: pokemon.name,
                 label: pokemon.name,
-                title: pokemon.name
+                position: new google.maps.LatLng(pokemon.lat, pokemon.long),
+                //icon: targetImage,
             });
 
             console.log('Add ' + pokemon.name);

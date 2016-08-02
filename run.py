@@ -7,6 +7,7 @@ import json
 import os.path
 import ConfigParser
 import random
+import time
 
 from datetime import datetime
 
@@ -107,13 +108,13 @@ def write_pokemons(pokemons):
 
 def find_pokemons(api, position):
     step_size = 0.0015
-    step_limit = 9
+    step_limit = 49
 
     coords = generate_spiral(position[0], position[1], step_size, step_limit)
 
     cell_ids = util.get_cell_ids(position[0], position[1])
     # timestamps = [0, ] * len(cell_ids)
-    timestamps = '\000' * 21
+    timestamps = [0, ] * len(cell_ids)
 
     pokemons = {}
 
@@ -122,14 +123,16 @@ def find_pokemons(api, position):
         lng = coord['lng']
         api.set_position(lat, lng, 0)
 
-        api.get_map_objects(latitude=util.f2i(position[0]),
+        response_dict = api.get_map_objects(latitude=util.f2i(position[0]),
                             longitude=util.f2i(position[1]),
                             since_timestamp_ms=timestamps,
                             cell_id=cell_ids)
-        response_dict = api.call()
+        # response_dict = api.call()
         resp = parse_map(response_dict)
 
         pokemons.update(resp)
+
+        time.sleep(0.51)
 
     if not pokemons:
         log.error('Cannot found pokemons')
@@ -151,12 +154,12 @@ def main():
 
     api = PGoApi()
 
-    if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD']):
-        return
-
     position = util.get_pos_by_name(config['LOCATIONS'])
     if not position:
         log.error('Your given location could not be found by name')
+        return
+
+    if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, True):
         return
 
     pokemons = find_pokemons(api, position)
