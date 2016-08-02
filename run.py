@@ -129,8 +129,7 @@ def find_pokemons(api, position):
                             cell_id=cell_ids)
         resp = parse_map(response_dict)
 
-        if resp:
-            pokemons.update(resp)
+        pokemons.update(resp)
         time.sleep(0.51)
 
     return pokemons
@@ -146,7 +145,6 @@ def main():
     logging.getLogger("pgoapi").setLevel(logging.INFO)
     # log level for internal pgoapi class
     logging.getLogger("rpc_api").setLevel(logging.INFO)
-
 
     locations = config['LOCATIONS'].split(";")
 
