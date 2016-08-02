@@ -162,11 +162,12 @@ def main():
         if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, True):
             return
 
-        poke = {}
-        poke = find_pokemons(api, position)
+        #poke = {}
+        #poke = find_pokemons(api, position)
+        find_pokemons(api, position)
 
         #if len(poke) > 0:
-        pokemons.update(poke)
+        #pokemons.update(poke)
         #write_pokemons(pokemons)
 
         if len(locations) > 1:
