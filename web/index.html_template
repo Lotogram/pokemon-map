@@ -11,21 +11,8 @@
             margin: 0;
             padding: 0;
         }
-
         #map {
             height: 100%;
-        }
-
-        .labels {
-            color: red;
-           background-color: white;
-           font-family: "Lucida Grande", "Arial", sans-serif;
-           font-size: 10px;
-           font-weight: bold;
-           text-align: center;
-           width: 60px;
-           border: 2px solid black;
-           white-space: nowrap;
         }
     </style>
 </head>
@@ -33,11 +20,9 @@
 <div id="map"></div>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=GMAPS_API_KEY"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXQ_CCvA7bEXLsWQh4jlywDrhC0eP9ERo"></script>
 <script src="js/maplabel-compiled.js"></script>
 <script>
-    var myImage = 'images/bluecircle.png';
-    var targetImage = 'images/target.png';
     var map;
     var markers = [];
     var labels = [];
@@ -52,21 +37,21 @@
         });
 
         /*if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                map.setCenter(initialLocation);
+         navigator.geolocation.getCurrentPosition(function (position) {
+         initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+         map.setCenter(initialLocation);
 
-                new google.maps.Marker({
-                    position: initialLocation,
-                    map: map,
-                    icon: myImage
-                });
-            });
-        }*/
+         new google.maps.Marker({
+         position: initialLocation,
+         map: map,
+         icon: myImage
+         });
+         });
+         }*/
         load(getPokemons());
-        setInterval(function() {
-                load(getPokemons(), true);
-            }, 4000);
+        setInterval(function () {
+            load(getPokemons(), true);
+        }, 4000);
     }
 
     function getPokemons() {
@@ -85,12 +70,12 @@
 
     function removeAllMarkers() {
         for (var i = 0; i < markers.length; i++) {
-          markers[i].setMap(null);
-          labels[i].setMap(null);
+            markers[i].setMap(null);
+            labels[i].setMap(null);
         }
         markers = [];
         labels = [];
-      }
+    }
 
     function load(locations, repeat) {
         var shape = {
@@ -108,33 +93,30 @@
         };
 
         removeAllMarkers();
+
         var marker;
+        var mapLabel
         for (var i = 0; i < locations.length; i++) {
             var pokemon = locations[i];
 
             if (i == 0 && !repeat) {
-                map.setCenter( new google.maps.LatLng(pokemon.lat, pokemon.long));
+                map.setCenter(new google.maps.LatLng(pokemon.lat, pokemon.long));
             }
 
-             var mapLabel = new MapLabel({
+            mapLabel = new MapLabel({
                 text: pokemon.name + " " + pokemon.disappear,
                 position: new google.maps.LatLng(pokemon.lat, pokemon.long),
                 map: map,
                 fontSize: 10,
-                align: 'right'
+                align: 'center'
             })
-
             labels.push(mapLabel);
 
             marker = new google.maps.Marker({
                 map: map,
                 zIndex: 1,
-                //title: pokemon.name,
-                //label: pokemon.name,
                 position: new google.maps.LatLng(pokemon.lat, pokemon.long)
-                //icon: targetImage,
             });
-
             markers.push(marker);
         }
     }
