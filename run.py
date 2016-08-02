@@ -98,13 +98,9 @@ def write_pokemons(pokemons):
         data['disappear'] = value['disappear_time'].strftime("%H:%M:%S")
         data['idx'] = i
 
-        # print('Pokemon: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(data)))
-
         arr.append(data)
 
-        # print('Pokemons: \n\r{}'.format(pprint.PrettyPrinter(indent=4).pformat(arr)))
-
-    log.debug("Writing " + str(data));
+        log.debug("Writing '" + str(data) + "'")
 
     with open('web/data.json', 'w') as outfile:
         json.dump(arr, outfile)
