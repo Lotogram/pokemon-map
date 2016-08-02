@@ -134,7 +134,7 @@ def find_pokemons(api, position):
         pokemons.update(resp)
 
         if len(pokemons) > 0:
-            write_pokemons(pokemons);
+            write_pokemons(pokemons)
 
         time.sleep(0.51)
 
@@ -172,10 +172,10 @@ def main():
         if poke:
             pokemons.update(poke)
 
-        write_pokemons(pokemons)
-
         if len(locations) > 1:
             time.sleep(0.51)
+
+    write_pokemons(pokemons)
 
 
 def replace_web():
