@@ -61,7 +61,8 @@
             });
         }*/
 
-        load(pokemons);
+        setTimeout(load(pokemons), 10000);
+        //load(pokemons);
     }
 
     var pokemons = (function () {
