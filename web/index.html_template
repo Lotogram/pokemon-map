@@ -38,6 +38,7 @@
     var myImage = 'images/bluecircle.png';
     var targetImage = 'images/target.png';
     var map;
+    var markers = [];
     function initMap() {
 
         map = new google.maps.Map(document.getElementById('map'), {
@@ -77,6 +78,13 @@
         return json;
     })();
 
+    function removeAllMarkers() {
+        for (var i = 0; i < markers.length; i++) {
+          markers[i].setMap(null);
+        }
+        markers = [];
+      }
+
     function load(locations) {
         var shape = {
             coord: [1, 1, 1, 20, 18, 20, 18, 1],
@@ -92,6 +100,7 @@
             anchor: new google.maps.Point(0, 32)
         };
 
+        removeAllMarkers();
         var marker;
         for (var i = 0; i < locations.length; i++) {
             var pokemon = locations[i];
@@ -116,6 +125,8 @@
                 position: new google.maps.LatLng(pokemon.lat, pokemon.long)
                 //icon: targetImage,
             });
+
+            markers.push(marker);
 
             console.log('Add ' + pokemon.name);
         }
