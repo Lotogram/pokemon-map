@@ -133,11 +133,8 @@ def find_pokemons(api, position):
                             cell_id=cell_ids)
         resp = parse_map(response_dict)
 
-        pokemons.update(resp)
-
-        if len(pokemons) > 0:
-            write_pokemons(pokemons)
-
+        if resp:
+            pokemons.update(resp)
         time.sleep(0.51)
 
     return pokemons
@@ -170,9 +167,11 @@ def main():
         if not api.login(config['SERVICE'], config['USERNAME'], config['PASSWORD'], position[0], position[1], 0, True):
             return
 
+        poke = {}
         poke = find_pokemons(api, position)
         if poke:
             pokemons.update(poke)
+            write_pokemons(pokemons)
 
         if len(locations) > 1:
             time.sleep(0.51)
