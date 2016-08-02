@@ -62,7 +62,7 @@
             });
         }*/
         load(pokemons);
-        setInterval(function() {load(pokemons);}, 4000);
+        setInterval(function() {load(pokemons); pokemons = null}, 4000);
     }
 
     var pokemons = (function () {
